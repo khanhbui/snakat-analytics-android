@@ -3,24 +3,43 @@ package com.snakat.analytics;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
-import java.lang.ref.WeakReference;
+public final class Analytics extends AnalyticsInternal {
 
-public abstract class Analytics {
+    private static Analytics mInstance;
 
-    private final WeakReference<Context> mContext;
-
-    protected Analytics(@NonNull Context context) {
-        mContext = new WeakReference<>(context);
+    public static Analytics getInstance() {
+        return mInstance;
     }
 
-    protected void destroy() {
-        mContext.clear();
+    public static void createInstance(@NonNull Context context) {
+        createInstance(context, false);
     }
 
-    @Nullable
-    protected Context getContext() {
-        return mContext.get();
+    public static void createInstance(@NonNull Context context, boolean logEnabled) {
+        if (mInstance == null) {
+            synchronized (Analytics.class) {
+                mInstance = new Analytics(context, logEnabled);
+            }
+        }
+    }
+
+    public static void destroyInstance() {
+        mInstance.destroy();
+        mInstance = null;
+    }
+
+    private Analytics(@NonNull Context context, boolean logEnabled) {
+        super(context, logEnabled);
+    }
+
+    public void logEvent(@NonNull String event, Object... params) {
+        for (AnalyticsHandler handler : mHandlers) {
+            handler.handle(event, params);
+        }
+    }
+
+    public void addHandler(AnalyticsHandler analyticsHandler) {
+        mHandlers.add(analyticsHandler);
     }
 }
