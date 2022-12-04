@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="slack_base_url" translatable="false">https://hooks.slack.com</string>
+</resources>

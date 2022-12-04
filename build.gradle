@@ -27,4 +27,8 @@ android {
 
 dependencies {
     api rootProject.ext.dependencies.appcompat
+
+    implementation rootProject.ext.dependencies.retrofit
+    implementation rootProject.ext.dependencies.adapterrxjava2
+    implementation rootProject.ext.dependencies.convertergson
 }
