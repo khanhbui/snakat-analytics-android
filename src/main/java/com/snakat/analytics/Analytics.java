@@ -25,7 +25,7 @@ public final class Analytics extends AnalyticsInternal {
     }
 
     public static void destroyInstance() {
-        mInstance.destroy();
+        mInstance.dispose();
         mInstance = null;
     }
 

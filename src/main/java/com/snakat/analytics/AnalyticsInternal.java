@@ -26,7 +26,10 @@ abstract class AnalyticsInternal {
         mContext = new WeakReference<>(context);
     }
 
-    protected void destroy() {
+    protected void dispose() {
+        for (AnalyticsHandler handler: mHandlers) {
+            handler.dispose();
+        }
         mHandlers.clear();
         mContext.clear();
     }
